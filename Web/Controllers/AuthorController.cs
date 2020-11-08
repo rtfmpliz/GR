@@ -69,5 +69,34 @@ namespace Web.Controllers
             repoAuthor.Insert(author);
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public IActionResult EditAuthor(long id)
+        {
+            AuthorViewModel model = new AuthorViewModel();
+            Author author = repoAuthor.Get(id);
+            if (author != null)
+            {
+                model.FirstName = author.FirstName;
+                model.LastName = author.LastName;
+                model.Email = author.Email;
+            }
+            return PartialView("_EditAuthor", model);
+        }
+        [HttpPost]
+        public IActionResult EditAuthor(long id, AuthorViewModel model)
+        {
+            Author author = repoAuthor.Get(id);
+            if (author != null)
+            {
+                author.FirstName = model.FirstName;
+                author.LastName = model.LastName;
+                author.Email = model.Email;
+                author.IPAddress = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                author.ModifiedDate = DateTime.UtcNow;
+                repoAuthor.Update(author);
+            }
+            return RedirectToAction("Index");
+        }
     }
 }

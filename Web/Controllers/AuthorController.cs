@@ -98,5 +98,28 @@ namespace Web.Controllers
             }
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public PartialViewResult AddBook(long id)
+        {
+            BookViewModel model = new BookViewModel();
+            return PartialView("_AddBook", model);
+        }
+        [HttpPost]
+        public IActionResult AddBook(long id, BookViewModel model)
+        {
+            Book book = new Book
+            {
+                AuthorId = id,
+                Name = model.BookName,
+                ISBN = model.ISBN,
+                Publisher = model.Publisher,
+                IPAddress = Request.HttpContext.Connection.RemoteIpAddress.ToString(),
+                AddedDate = DateTime.UtcNow,
+                ModifiedDate = DateTime.UtcNow
+            };
+            repoBook.Insert(book);
+            return RedirectToAction("Index");
+        }
     }
 }

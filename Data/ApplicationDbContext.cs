@@ -1,0 +1,30 @@
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Data
+{
+    public class ApplicationDbContext : DbContext 
+    {
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options): base(options) { }
+        public DbSet<Book> Books { get; set; }
+        public DbSet<Author> Authors { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            //modelBuilder.Entity<Author>()
+                //.HasKey(t => t.Id);
+            //.Property(t => t.FirstName).IsRequired()
+            //.Property(t => t.LastName).IsRequired()
+            //.Property(t => t.Email).IsRequired()
+            //new AuthorMap(Model.Entity<Author>());
+            //new BookMap(Model.Entity<Book>());
+
+
+        }
+
+    }
+}

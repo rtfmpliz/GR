@@ -1,0 +1,6 @@
+﻿@model string
+@using Web.Models 
+<form asp-action = "DeleteBook" role = "form"> 
+    @await Html.PartialAsync("_ModalHeader", new ModalHeader{Heading = "Delete Book"}) 
+    <div class = "modal-body form-horizontal"> Are you want to delete @Model ? </div>
+@await Html.PartialAsync("_ModalFooter", new ModalFooter{SubmitButtonText = "Delete"}) </form>  

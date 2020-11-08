@@ -1,4 +1,5 @@
 ﻿using Data;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -70,6 +71,23 @@ namespace Web.Controllers
                 book.IPAddress = Request.HttpContext.Connection.RemoteIpAddress.ToString();
                 book.ModifiedDate = DateTime.UtcNow;
                 repoBook.Update(book);
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public PartialViewResult DeleteBook(long id)
+        {
+            Book book = repoBook.Get(id);
+            return PartialView("_DeleteBook", book?.Name);
+        }
+        [HttpPost]
+        public ActionResult DeleteBook(long id, FormCollection form)
+        {
+            Book book = repoBook.Get(id);
+            if (book != null)
+            {
+                repoBook.Delete(book);
             }
             return RedirectToAction("Index");
         }

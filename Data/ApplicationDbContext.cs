@@ -15,14 +15,6 @@ namespace Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            //modelBuilder.Entity<Author>()
-                //.HasKey(t => t.Id);
-            //.Property(t => t.FirstName).IsRequired()
-            //.Property(t => t.LastName).IsRequired()
-            //.Property(t => t.Email).IsRequired()
-            //new AuthorMap(Model.Entity<Author>());
-            //new BookMap(Model.Entity<Book>());
-
 
         }
 

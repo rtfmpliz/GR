@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Web.Code
+namespace Web.Models
 {
-    public enum ModelSize
+    public class ModalHeader
     {
-        Small,
-        Large,
-        Medium
+        public string Heading { get; set; }
+
     }
 }

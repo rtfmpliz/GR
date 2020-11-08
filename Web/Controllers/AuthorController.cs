@@ -37,5 +37,37 @@ namespace Web.Controllers
             });
             return View(model);
         }
+
+        [HttpGet]
+        public PartialViewResult AddAuthor()
+        {
+            AuthorBookViewModel model = new AuthorBookViewModel();
+            return PartialView("_AddAuthor", model);
+        }
+        [HttpPost]
+        public ActionResult AddAuthor(AuthorBookViewModel model)
+        {
+            Author author = new Author
+            {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Email = model.Email,
+                AddedDate = DateTime.UtcNow,
+                IPAddress = Request.HttpContext.Connection.RemoteIpAddress.ToString(),
+                ModifiedDate = DateTime.UtcNow,
+                Books = new List<Book> {
+                new Book {
+                    Name = model.BookName,
+                        ISBN = model.ISBN,
+                        Publisher = model.Publisher,
+                        IPAddress = Request.HttpContext.Connection.RemoteIpAddress.ToString(),
+                        AddedDate = DateTime.UtcNow,
+                        ModifiedDate = DateTime.UtcNow
+                }
+            }
+            };
+            repoAuthor.Insert(author);
+            return RedirectToAction("Index");
+        }
     }
 }

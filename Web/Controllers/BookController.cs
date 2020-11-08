@@ -1,5 +1,6 @@
 ﻿using Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +38,40 @@ namespace Web.Controllers
                 model.Add(book);
             });
             return View("Index", model);
+        }
+        public PartialViewResult EditBook(long id)
+        {
+            EditBookViewModel model = new EditBookViewModel();
+            model.Authors = repoAuthor.GetAll().Select(a => new SelectListItem
+            {
+                Text = $"{a.FirstName} {a.LastName}",
+                Value = a.Id.ToString()
+            }).ToList();
+            Book book = repoBook.Get(id);
+            if (book != null)
+            {
+                model.BookName = book.Name;
+                model.ISBN = book.ISBN;
+                model.Publisher = book.Publisher;
+                model.AuthorId = book.AuthorId;
+            }
+            return PartialView("_EditBook", model);
+        }
+        [HttpPost]
+        public ActionResult EditBook(long id, EditBookViewModel model)
+        {
+            Book book = repoBook.Get(id);
+            if (book != null)
+            {
+                book.Name = model.BookName;
+                book.ISBN = model.ISBN;
+                book.Publisher = model.Publisher;
+                book.AuthorId = model.AuthorId;
+                book.IPAddress = Request.HttpContext.Connection.RemoteIpAddress.ToString();
+                book.ModifiedDate = DateTime.UtcNow;
+                repoBook.Update(book);
+            }
+            return RedirectToAction("Index");
         }
     }
 }
